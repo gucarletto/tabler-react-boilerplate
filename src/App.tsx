@@ -1,19 +1,29 @@
-import React from 'react';
+import * as React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import {
+  HomePage
+} from "./pages";
+
+import {
+  Error404
+} from "./pages/exceptions
+";
 
 import "tabler-react/dist/Tabler.css";
 
-import { Card, Button } from "tabler-react";
+type Props = {};
 
-function App() {
+function App(props: Props) {
   return (
-    <Card>
-      <Card.Header>
-        <Card.Title>Card Title</Card.Title>
-      </Card.Header>
-      <Card.Body>
-        <Button color="primary">A Button</Button>
-      </Card.Body>
-    </Card>
+    <React.StrictMode>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route component={Error404} />
+        </Switch>
+      </Router>
+    </React.StrictMode>
   );
 }
 
