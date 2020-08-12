@@ -1,14 +1,9 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import {
-  HomePage
-} from "./pages";
+import HomePage from "./pages/HomePage";
 
-import {
-  Error404
-} from "./pages/exceptions
-";
+import Error404 from "./pages/exceptions/404";
 
 import "tabler-react/dist/Tabler.css";
 
