@@ -13,8 +13,8 @@ const SiteWrapper = function({ children }: Props) {
   return (
     <Site.Wrapper
       header={SiteHeader}
-      nav={SiteNav}
       navIsSide={true}
+      nav={SiteNav}
       footer={SiteFooter}
     >
       {children}
