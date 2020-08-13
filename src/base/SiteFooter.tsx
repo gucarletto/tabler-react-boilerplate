@@ -2,10 +2,9 @@ import React from "react";
 
 import { Site, Grid, List } from "tabler-react";
 
-const SiteFooter = function() {
+const SiteFooter = () => {
   return (
     <Site.Footer
-      links={[]}
       copyright={
         <React.Fragment />
       }
@@ -14,7 +13,7 @@ const SiteFooter = function() {
           <Grid.Col auto={true}>
             <List className="list-inline list-inline-dots mb-0">
               <List.Item className="list-inline-item">
-                <a href="../docs/index.html">Documentação</a>
+                <a href="./docs/index.html">Documentação</a>
               </List.Item>
             </List>
           </Grid.Col>

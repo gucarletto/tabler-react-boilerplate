@@ -13,7 +13,7 @@ const navBarItems = [
   },
 ];
 
-const SiteNav = function() {
+const SiteNav = () => {
   return (
     <Site.Nav
       logoURL="./img/logo.svg"

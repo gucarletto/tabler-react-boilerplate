@@ -2,7 +2,7 @@ import React from "react";
 
 import { Site, Nav, Button, Form } from "tabler-react";
 
-const SiteHeader = function() {
+const SiteHeader = () => {
 
   return (
     <Site.Header
