@@ -18,7 +18,7 @@ const SiteNav = () => {
     <Site.Nav
       logoURL="./img/logo.svg"
       isSide={true}
-      side="right"
+      side="left"
       itemsObjects={navBarItems}
     />
   );
