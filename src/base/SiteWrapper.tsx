@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const SiteWrapper = function({ children }: Props) {
+const SiteWrapper = ({ children }: Props) => {
   return (
     <Site.Wrapper
       header={SiteHeader}
