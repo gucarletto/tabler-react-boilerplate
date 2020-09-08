@@ -1,11 +1,11 @@
 import * as React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-import HomePage from "./pages/HomePage";
-
-import Error404 from "./pages/exceptions/404";
+import { BrowserRouter as Router} from "react-router-dom";
 
 import "tabler-react/dist/Tabler.css";
+
+import Routes from './routes';
+
+import { AuthProvider } from "./hooks/AuthContext";
 
 type Props = {};
 
@@ -13,10 +13,9 @@ function App(props: Props) {
   return (
     <React.StrictMode>
       <Router>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route component={Error404} />
-        </Switch>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
       </Router>
     </React.StrictMode>
   );

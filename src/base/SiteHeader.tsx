@@ -1,39 +1,14 @@
 import React from "react";
 
-import { Site, Nav, Button, Form } from "tabler-react";
+import { Site } from "tabler-react";
 
 const SiteHeader = () => {
 
   return (
     <Site.Header
       href="/"
-      alt="Tabler React"
+      alt="System"
       imageURL="./img/logo.svg"
-      navItems={
-        <Nav.Item link={false} className="d-none d-md-flex">
-          <Button
-            href="https://github.com/tabler/tabler-react"
-            target="_blank"
-            outline
-            size="sm"
-            RootComponent="a"
-            color="primary"
-          >
-            Source code
-          </Button>
-        </Nav.Item>
-      }
-      notificationsTray={{}}
-      accountDropdown={{}}
-      searchBar={
-        <Form.Input
-          icon="search"
-          position="prepend"
-          placeholder="Search"
-          tabIndex={-1}
-          light
-        />
-      }
     />
   );
 };

@@ -5,7 +5,7 @@ import { Site } from "tabler-react";
 
 const navBarItems = [
   {
-    value: "Home",
+    value: "Dashboard",
     to: "/",
     icon: "home",
     linkAs: ReactRouterNavLink,
