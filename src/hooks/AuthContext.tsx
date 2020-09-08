@@ -8,14 +8,14 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  store: object;
+  user: object;
   signIn(credentials: SignInCredentials): Promise<boolean>;
   signOut(): void;
 }
 
 interface AuthState {
   token: string;
-  store: object;
+  user: object;
 }
 
 const AuthContext = createContext<AuthContextData>(
@@ -24,12 +24,12 @@ const AuthContext = createContext<AuthContextData>(
 
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@fidegg:token');
-    const store = localStorage.getItem('@fidegg:store');
+    const token = localStorage.getItem('@system:token');
+    const user = localStorage.getItem('@system:user');
 
-    if(token && store) {
+    if(token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token, store: JSON.parse(store) };
+      return { token, user: JSON.parse(user) };
     }
     return {} as AuthState;
   });
@@ -40,28 +40,28 @@ const AuthProvider: React.FC = ({ children }) => {
       password: password
     });
 
-    const { token, store } = response.data;
+    const { token, user } = response.data;
     if(token) {
-      localStorage.setItem('@fidegg:token', token);
-      localStorage.setItem('@fidegg:store', JSON.stringify(store));
+      localStorage.setItem('@system:token', token);
+      localStorage.setItem('@system:user', JSON.stringify(user));
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      setData({token, store});
+      setData({token, user});
       return true;
     }
     return false;
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@fidegg:token');
-    localStorage.removeItem('@fidegg:store');
+    localStorage.removeItem('@system:token');
+    localStorage.removeItem('@system:user');
 
     setData({} as AuthState);
   }, []);
 
   return (
-    <AuthContext.Provider value={{store: data.store, signIn, signOut}} >
+    <AuthContext.Provider value={{user: data.user, signIn, signOut}} >
       {children}
     </AuthContext.Provider>
   );
