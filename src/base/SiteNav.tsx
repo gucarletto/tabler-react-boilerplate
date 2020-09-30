@@ -11,6 +11,13 @@ const navBarItems = [
     linkAs: ReactRouterNavLink,
     linkProps: { exact: true },
   },
+  {
+    value: "Users",
+    to: "/users",
+    icon: "users",
+    linkAs: ReactRouterNavLink,
+    linkProps: { exact: true },
+  }
 ];
 
 const SiteNav = () => {
