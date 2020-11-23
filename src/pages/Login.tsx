@@ -1,10 +1,19 @@
 import React from "react";
 import { Formik } from "formik";
 import { LoginPage as TablerLoginPage } from "tabler-react";
+import { useHistory } from 'react-router-dom';
+
+import { useAuth } from "../hooks/AuthContext";
+
+import logo from "../assets/img/logo.svg";
 
 type Props = {};
 
 function Login(props: Props) {
+  const history = useHistory();
+
+  const { signIn } = useAuth();
+
   return (
     <Formik
       initialValues={{
@@ -19,15 +28,25 @@ function Login(props: Props) {
         } else if (
           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
         ) {
-          errors.email = "Invalid email address";
+          errors.email = "Invalid E-Mail";
         }
         return errors;
       }}
-      onSubmit={(
+      onSubmit={async (
         values,
         { setSubmitting, setErrors /* setValues and other goodies */ }
       ) => {
-        alert("Done!");
+
+        try {
+          await signIn({
+            email: values.email,
+            password: values.password
+          });
+          history.push('dashboard');
+        } catch (err) {
+          alert('Invalid E-Mail or Password');
+        }
+
       }}
       render={({
         values,
@@ -45,6 +64,15 @@ function Login(props: Props) {
           values={values}
           errors={errors}
           touched={touched}
+          logoUrl={logo}
+          strings={{
+            title:"Login",
+            buttonText:"Login",
+            emailLabel:"E-Mail",
+            emailPlaceholder:"E-Mail",
+            passwordLabel:"Senha",
+            passwordPlaceholder:"Senha",
+          }}
         />
       )}
     />
