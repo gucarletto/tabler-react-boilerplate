@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
 
-import SiteWrapper from "../../base/SiteWrapper";
+import SiteWrapper from "../base/SiteWrapper";
 
-import api from '../../services/api';
+import api from '../services/api';
 
 import {
   Page,
@@ -10,7 +11,7 @@ import {
   Table,
   Text,
   Button,
-  Icon
+  Form
 } from "tabler-react";
 
 interface User {
@@ -20,11 +21,44 @@ interface User {
 
 function UsersList() {
   const [users, setUsers] = useState([]);
+  const [nameSearch, setNameSearch] = useState('');
+  const [page, setPage]= useState(1);
+  const [pageCount, setPageCount]= useState(0);
 
   useEffect(() => {
-    api.get('users').then(response => {
+    updateUsersList();
+  }, [page]);
+
+  function updateUsersList() {
+    const params = {
+      page
+    };
+    api.get('users', { params }).then(response => {
       setUsers(response.data);
+      setPageCount(response.data.pages);
     });
+  };
+
+  function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
+    setNameSearch(event.target.value);
+  }
+
+  function handleSubmitSearch(event: FormEvent) {
+    event.preventDefault();
+
+    const params = {
+      name: nameSearch
+    }
+
+    api.get('users', { params }).then(response => {
+      setUsers(response.data.transactions);
+      setPageCount(response.data.pages);
+    });
+  }
+
+  const handlePaginate = useCallback((selectedItem: { selected: number }) => {
+    setPage(selectedItem.selected + 1);
+    updateUsersList();
   }, []);
 
   function handleEditClick(user: User) {
@@ -42,9 +76,24 @@ function UsersList() {
           <Card.Header>
             <Card.Title>Clientes</Card.Title>
             <Card.Options>
-              <Button RootComponent="a" color="secondary" size="sm" icon="plus" >
-                Incluir
-              </Button>
+            <Form onSubmit={handleSubmitSearch}>
+                <Form.InputGroup>
+                  <Form.Input
+                    className="form-control-sm"
+                    placeholder="Name"
+                    name="name"
+                    onChange={handleNameChange}
+                  />
+                  <span className="input-group-btn ml-2">
+                    <Button
+                      size="sm"
+                      color="default"
+                      type="submit"
+                      icon="search"
+                    />
+                  </span>
+                </Form.InputGroup>
+              </Form>
             </Card.Options>
           </Card.Header>
           <Table
@@ -94,6 +143,20 @@ function UsersList() {
               })
             }
           />
+          <Card.Footer>
+            <ReactPaginate
+              previousLabel={'<'}
+              nextLabel={'>'}
+              breakLabel={"..."}
+              breakClassName={"break-me"}
+              pageCount={pageCount}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={2}
+              onPageChange={handlePaginate}
+              containerClassName={'pagination'}
+              activeClassName={'active'}
+            />
+          </Card.Footer>
         </Card>
       </Page.Content>
     </SiteWrapper>

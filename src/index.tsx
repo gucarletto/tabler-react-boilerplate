@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 import './index.css';
+import './c3chart.css';
+import './paginate.css';
 
 const rootElement = document.getElementById("root");
 

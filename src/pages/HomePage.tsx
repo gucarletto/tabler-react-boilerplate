@@ -2,6 +2,8 @@ import React from "react";
 
 import SiteWrapper from "../base/SiteWrapper";
 
+import C3Chart from "../C3Chart";
+
 import {
   Page,
   Card,
