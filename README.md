@@ -1,4 +1,4 @@
-A minimum boilierplate for bootstraping your admin with react, typescript and tabler components
+A minimum boilierplate for bootstraping your admin dashboard with react, typescript and tabler components
 
 ## Available Scripts
 
