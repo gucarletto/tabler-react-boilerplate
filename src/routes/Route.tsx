@@ -15,7 +15,7 @@ interface RouteProps extends ReactDOMRouteProps {
 }
 
 const Route: React.FC<RouteProps> = ({ isPrivate = false, component: Component, ...rest }) => {
-  const { store, expiration, signOut } = useAuth();
+  const { user, expiration, signOut } = useAuth();
 
   const date = moment();
   const expirationDate = moment(expiration)
@@ -28,7 +28,7 @@ const Route: React.FC<RouteProps> = ({ isPrivate = false, component: Component, 
     <ReactDOMRoute
       { ...rest }
       render= {({ location }) => {
-        return isPrivate === !!store ? (
+        return isPrivate === !!user ? (
           <Component />
         ) : (
           <Redirect to={{
