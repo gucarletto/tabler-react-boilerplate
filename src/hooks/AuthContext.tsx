@@ -9,12 +9,14 @@ interface SignInCredentials {
 
 interface AuthContextData {
   user: object;
+  expiration: string;
   signIn(credentials: SignInCredentials): Promise<boolean>;
   signOut(): void;
 }
 
 interface AuthState {
   token: string;
+  expiration: string;
   user: object;
 }
 
@@ -26,10 +28,11 @@ const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@system:token');
     const user = localStorage.getItem('@system:user');
+    const expiration = localStorage.getItem('@system:token-expiration');
 
     if(token && user) {
       api.defaults.headers.authorization = `Bearer ${token}`;
-      return { token, user: JSON.parse(user) };
+      return { token, expiration, user: JSON.parse(user) };
     }
     return {} as AuthState;
   });
@@ -40,14 +43,15 @@ const AuthProvider: React.FC = ({ children }) => {
       password: password
     });
 
-    const { token, user } = response.data;
+    const { token, expiration, user } = response.data;
     if(token) {
       localStorage.setItem('@system:token', token);
+      localStorage.setItem('@system:token-expiration', expiration);
       localStorage.setItem('@system:user', JSON.stringify(user));
 
       api.defaults.headers.authorization = `Bearer ${token}`;
 
-      setData({token, user});
+      setData({token, expiration, user});
       return true;
     }
     return false;
@@ -55,6 +59,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@system:token');
+    localStorage.removeItem('@system:token-expiration');
     localStorage.removeItem('@system:user');
 	api.defaults.headers.authorization = null;
 
@@ -62,7 +67,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{user: data.user, signIn, signOut}} >
+    <AuthContext.Provider value={{user: data.user, expiration: data.expiration, signIn, signOut}} >
       {children}
     </AuthContext.Provider>
   );
